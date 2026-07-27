@@ -460,8 +460,8 @@ Representative simulation waveforms demonstrating different APB transactions are
 # 📂 Repository Structure
 
 ```text
-amba-apb-slave-verilog
-│
+
+AMBA-APB-Slave/
 ├── rtl/
 │   ├── apb_slave_top.v
 │   ├── apb_fsm.v
@@ -469,17 +469,17 @@ amba-apb-slave-verilog
 │   ├── register_bank.v
 │   ├── apb_ram.v
 │   └── apb_read_mux.v
-│
 ├── tb/
 │   └── apb_slave_tb.v
-│
-├── docs/
-│
 ├── images/
-│
-├── waveforms/
-│
+│   ├── apb_block_diagram.png
+│   ├── apb_protocol_flow.png
+│   ├── verification_flow.png
+│   └── architecture_reference.png
+├── waveform/
+│   └── apb_simulation_waveform.png
 └── README.md
+
 ```
 
 ---
