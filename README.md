@@ -455,8 +455,6 @@ Representative simulation waveforms demonstrating different APB transactions are
 - PREADY Generation
 - FSM State Transitions
 
-> Waveform screenshots will be added in future updates.
-
 ---
 
 # 📂 Repository Structure
