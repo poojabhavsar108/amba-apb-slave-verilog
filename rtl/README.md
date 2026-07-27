@@ -13,7 +13,7 @@ Modules:
 
 • apb_addr_decoder.v – Decodes register and RAM addresses.
 
-• register_bank.v – Implements memory-mapped control, status, data, and mask registers.
+• apb_register_bank.v – Implements memory-mapped control, status, data, and mask registers.
 
 • apb_ram.v – 256 × 32-bit RAM module.
 
