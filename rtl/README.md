@@ -2,7 +2,10 @@ RTL Modules
 
 This directory contains the synthesizable Verilog HDL implementation of the AMBA APB Slave.
 
+
 Modules:
+
+
 • apb_slave_top.v – Top-level module integrating all submodules.
 • apb_fsm.v – Implements the APB protocol state machine.
 • apb_address_decoder.v – Decodes register and RAM addresses.
