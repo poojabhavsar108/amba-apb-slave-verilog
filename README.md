@@ -40,7 +40,7 @@ To ensure functional correctness, the design is verified using a structured self
 - Verify the design using a self-checking testbench with a behavioral reference model.
 - Demonstrate practical RTL design and functional verification techniques using Verilog HDL.
 
-  ---
+---
 
 # ⚙️ APB Slave Specifications
 
@@ -441,7 +441,7 @@ This automated verification methodology helps ensure that the APB Slave operates
 
 The APB Slave was simulated using **EDA Playground** with the **Icarus Verilog** simulator. Functional verification was performed using a self-checking testbench, and simulation waveforms were analyzed using **EPWave**.
 
-Representative simulation waveforms demonstrating different APB transactions are included in the **waveform/** directory.
+A representative simulation waveforms demonstrating APB transactions is included in the **waveform/** directory.
 
 ### Simulated Operations
 
