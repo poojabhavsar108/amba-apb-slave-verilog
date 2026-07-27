@@ -6,6 +6,20 @@ This project focuses on designing a synthesizable APB Slave using a modular RTL 
 
 ---
 
+## ⭐ Project Highlights
+
+- ✔️ AMBA APB Slave implemented in Verilog HDL
+- ✔️ Modular RTL architecture
+- ✔️ Self-checking verification environment
+- ✔️ Behavioral Reference (Golden) Model
+- ✔️ Memory-mapped register bank and 256 × 32-bit RAM
+- ✔️ APB FSM implementing IDLE, SETUP, and ACCESS states
+- ✔️ Address Decoder with register and RAM selection
+- ✔️ Automatic `PREADY` and `PSLVERR` generation
+- ✔️ Comprehensive APB read/write transaction verification
+
+---
+
 # 📖 Project Overview
 
 The Advanced Peripheral Bus (APB) is part of the ARM Advanced Microcontroller Bus Architecture (AMBA) and is widely used for connecting low-bandwidth peripherals such as GPIO, UART, Timers, SPI, and I²C controllers.
