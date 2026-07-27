@@ -11,7 +11,7 @@ Modules:
 
 • apb_fsm.v – Implements the APB protocol state machine.
 
-• apb_address_decoder.v – Decodes register and RAM addresses.
+• apb_addr_decoder.v – Decodes register and RAM addresses.
 
 • register_bank.v – Implements memory-mapped control, status, data, and mask registers.
 
