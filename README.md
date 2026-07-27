@@ -441,7 +441,7 @@ This automated verification methodology helps ensure that the APB Slave operates
 
 The APB Slave was simulated using **EDA Playground** with the **Icarus Verilog** simulator. Functional verification was performed using a self-checking testbench, and simulation waveforms were analyzed using **EPWave**.
 
-A representative simulation waveforms demonstrating APB transactions is included in the **waveform/** directory.
+A representative simulation waveform demonstrating APB transactions is included in the **waveform/** directory.
 
 ### Simulated Operations
 
