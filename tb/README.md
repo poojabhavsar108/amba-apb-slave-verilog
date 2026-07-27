@@ -4,7 +4,7 @@ This directory contains the self-checking testbench used to verify the AMBA APB 
 
 
 
-Features:
+Verification Features:
 
 
 • Self-checking verification
