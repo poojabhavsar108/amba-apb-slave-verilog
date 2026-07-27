@@ -7,14 +7,14 @@ This directory contains the synthesizable Verilog HDL implementation of the AMBA
 Modules:
 
 
-• apb_slave_top.v – Top-level module integrating all submodules.
+- apb_slave_top.v – Top-level module integrating all submodules.
 
-• apb_fsm.v – Implements the APB protocol state machine.
+- apb_fsm.v – Implements the APB protocol state machine.
 
-• apb_addr_decoder.v – Decodes register and RAM addresses.
+- apb_addr_decoder.v – Decodes register and RAM addresses.
 
-• apb_register_bank.v – Implements memory-mapped control, status, data, and mask registers.
+- apb_register_bank.v – Implements memory-mapped control, status, data, and mask registers.
 
-• apb_ram.v – 256 × 32-bit RAM module.
+- apb_ram.v – 256 × 32-bit RAM module.
 
-• apb_read_mux.v – Multiplexes read data from register bank and RAM.
+- apb_read_mux.v – Multiplexes read data from register bank and RAM.
