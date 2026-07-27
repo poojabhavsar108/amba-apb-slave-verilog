@@ -17,4 +17,4 @@ Modules:
 
 • apb_ram.v – 256 × 32-bit RAM module.
 
-• apb_read_mux.v – Multiplexes read data from registers and RAM.
+• apb_read_mux.v – Multiplexes read data from register bank and RAM.
