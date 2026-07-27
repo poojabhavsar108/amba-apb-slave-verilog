@@ -52,6 +52,10 @@ To ensure functional correctness, the design is verified using a structured self
 
 # 🏗️ AMBA APB Protocol Overview
 
+<p align="center">
+  <img src="images/apb_protocol_flow.png" width="850">
+</p>
+
 The Advanced Peripheral Bus (APB) is part of the ARM Advanced Microcontroller Bus Architecture (AMBA) and is specifically designed for communication with low-bandwidth, low-power peripherals. It provides a simple and efficient interface between an APB Master and APB Slave using dedicated address, data, and control signals.
 
 The APB protocol follows a three-state finite state machine (FSM):
@@ -107,6 +111,10 @@ The APB protocol follows a three-state finite state machine (FSM):
 ---
 
 # 🏛️ RTL Architecture
+
+<p align="center">
+  <img src="images/apb_block_diagram.png" width="900">
+</p>
 
 The APB Slave is designed using a modular RTL architecture, where each module performs a dedicated function. This modular approach improves readability, simplifies verification, and allows individual modules to be developed and tested independently before system-level integration.
 
@@ -333,6 +341,10 @@ The implemented APB Slave provides the following features:
 ---
 
 # 🧪 Verification Methodology
+
+<p align="center">
+  <img src="images/verification_flow.png" width="800">
+</p>
 
 To ensure the functional correctness of the APB Slave, a comprehensive self-checking verification environment was developed in Verilog HDL.
 
