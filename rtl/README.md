@@ -1,4 +1,4 @@
-RTL Modules
+RTL Module Discription:
 
 This directory contains the synthesizable Verilog HDL implementation of the AMBA APB Slave.
 
