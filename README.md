@@ -223,23 +223,265 @@ During an APB transaction:
 
 ---
 
-APB MASTER
-                     │
-                     ▼
-             +----------------+
-             |  APB Slave Top |
-             +----------------+
-                     │
-     ┌───────────────┼───────────────┐
-     ▼               ▼               ▼
-+---------+    +-----------+   +-----------+
-|  FSM    |    | Address   |   | Read MUX  |
-|         |    | Decoder   |   |           |
-+---------+    +-----------+   +-----------+
-                     │
-          ┌──────────┴──────────┐
-          ▼                     ▼
-+----------------+      +----------------+
-| Register Bank  |      |   256×32 RAM   |
-+----------------+      +----------------+
+# 📋 Register Map
+
+The APB Slave implements four memory-mapped 32-bit registers for configuration, status monitoring, and data storage. These registers are accessed through fixed APB addresses.
+
+| Address | Register | Reset Value | Description |
+|---------|----------|-------------|-------------|
+| `0x0000_0000` | Control Register | `0x00000000` | Stores control information written by the APB Master. |
+| `0x0000_0004` | Status Register | `0x00000000` | Records the status of APB transactions and error conditions. |
+| `0x0000_0008` | Data Register | `0x00000000` | Stores user data for read and write operations. |
+| `0x0000_000C` | Mask Register | `0x00000000` | Stores only the lower 16 bits of the written data. |
+
+The address range from **0x0000_0010** to **0x0000_040C** is allocated to a **256 × 32-bit RAM**. Only word-aligned addresses are considered valid for RAM accesses.
+
+---
+
+## 📌 Control Register
+
+The Control Register is a 32-bit read/write register used to store control information provided by the APB Master.
+
+- Read/Write accessible
+- Reset value: `0x00000000`
+
+---
+
+## 📌 Status Register
+
+The Status Register is automatically updated by the hardware to indicate the outcome of APB transactions.
+
+| Bit | Name | Description |
+|-----|------|-------------|
+| 0 | Write Complete | Set after a successful write transaction. |
+| 1 | Read Complete | Set after a successful read transaction. |
+| 2 | Error Flag | Set when an invalid address access occurs (`PSLVERR`). |
+| 3 | RAM Access | Set whenever a valid RAM read or write is performed. |
+| 31:4 | Reserved | Reserved for future use. |
+
+---
+
+## 📌 Data Register
+
+The Data Register stores general-purpose 32-bit data exchanged between the APB Master and the APB Slave.
+
+- Read/Write accessible
+- Reset value: `0x00000000`
+
+---
+
+## 📌 Mask Register
+
+The Mask Register stores only the lower 16 bits of the input write data.
+
+```
+mask_reg <= {16'h0000, PWDATA[15:0]};
+```
+
+This implementation ensures that the upper 16 bits remain cleared while preserving the lower 16-bit mask value.
+
+---
+
+## 📌 RAM Memory Map
+
+The APB Slave also includes an internal **256 × 32-bit RAM** for data storage.
+
+### Features
+
+- Memory-mapped interface
+- Synchronous write operation
+- Combinational read operation
+- Word-aligned addressing
+- Address Range:
+  - Start: `0x0000_0010`
+  - End: `0x0000_040C`
+
+Any address outside the valid register or RAM range results in the assertion of the **PSLVERR** signal.
+
+---
+
+# ✨ Key Features
+
+The implemented APB Slave provides the following features:
+
+- Fully synthesizable RTL design using Verilog HDL.
+- Modular architecture with independently developed RTL modules.
+- 32-bit APB interface supporting memory-mapped communication.
+- Three-state APB FSM implementing the IDLE, SETUP, and ACCESS states.
+- Separate Address Decoder for register and RAM selection.
+- Four 32-bit memory-mapped registers:
+  - Control Register
+  - Status Register
+  - Data Register
+  - Mask Register
+- 256 × 32-bit internal RAM for data storage.
+- Support for both APB Read and Write transactions.
+- Word-aligned RAM addressing for valid memory accesses.
+- Automatic generation of `write_en` and `read_en` control signals.
+- Automatic `PREADY` generation during the ACCESS state.
+- `PSLVERR` generation for invalid address accesses.
+- Hardware-updated Status Register indicating:
+  - Write completion
+  - Read completion
+  - Error detection
+  - RAM access
+- Partial write implementation for the Mask Register (lower 16 bits only).
+- Active-low asynchronous reset (`PRESETn`).
+- Memory-mapped architecture with clearly defined register and RAM address spaces.
+- Top-level integration of all RTL modules into a complete APB Slave subsystem.
+
+---
+
+# 🧪 Verification Methodology
+
+To ensure the functional correctness of the APB Slave, a comprehensive self-checking verification environment was developed in Verilog HDL.
+
+Instead of relying only on waveform inspection, the verification process automatically compares the Design Under Test (DUT) against a behavioral reference (Golden) model, enabling efficient detection of mismatches.
+
+### Verification Environment
+
+The testbench includes:
+
+- Self-checking verification methodology
+- Behavioral Reference (Golden) Model
+- Reusable APB Read and Write tasks
+- Automatic expected output generation
+- Automatic DUT vs Reference Model comparison
+- Pass/Fail counter for simulation results
+- Detailed simulation logging
+- Waveform generation using VCD (`$dumpfile` and `$dumpvars`)
+
+This approach improves verification efficiency and minimizes manual debugging.
+
+---
+
+# ✅ Test Scenarios
+
+The following functional test scenarios were verified during simulation.
+
+| Test Scenario | Description |
+|--------------|-------------|
+| Reset Verification | Verified correct reset values for all registers. |
+| Control Register | Verified write and read operations. |
+| Status Register | Verified automatic hardware status updates. |
+| Data Register | Verified read and write functionality. |
+| Mask Register | Verified storage of only the lower 16 bits. |
+| RAM Write | Verified writing data into internal RAM. |
+| RAM Read | Verified reading data from internal RAM. |
+| Invalid Address Access | Verified assertion of the `PSLVERR` signal. |
+| Word-Aligned RAM Access | Verified valid RAM address decoding. |
+| APB Read Transactions | Verified complete APB read protocol. |
+| APB Write Transactions | Verified complete APB write protocol. |
+
+---
+
+# 📊 Verification Results
+
+The testbench automatically compares the DUT outputs with the expected outputs generated by the behavioral reference model.
+
+The following outputs are verified during every APB transaction:
+
+- `PRDATA`
+- `PREADY`
+- `PSLVERR`
+
+Simulation results are categorized as **PASS** or **FAIL**, and the overall verification summary is displayed at the end of simulation using pass and fail counters.
+
+This automated verification methodology helps ensure that the APB Slave operates correctly for both valid and invalid transaction scenarios.
+
+---
+
+# 🌊 Simulation Results
+
+The APB Slave was simulated using **EDA Playground** with the **Icarus Verilog** simulator. Functional verification was performed using a self-checking testbench, and simulation waveforms were analyzed using **EPWave**.
+
+Representative simulation waveforms demonstrating different APB transactions are included in the **waveforms/** directory.
+
+### Simulated Operations
+
+- APB Reset Sequence
+- Register Write Transaction
+- Register Read Transaction
+- RAM Write Transaction
+- RAM Read Transaction
+- Invalid Address Access
+- PSLVERR Assertion
+- PREADY Generation
+- FSM State Transitions
+
+> Waveform screenshots will be added in future updates.
+
+---
+
+# 📂 Repository Structure
+
+```text
+amba-apb-slave-verilog
+│
+├── rtl/
+│   ├── apb_slave_top.v
+│   ├── apb_fsm.v
+│   ├── apb_address_decoder.v
+│   ├── register_bank.v
+│   ├── apb_ram.v
+│   └── apb_read_mux.v
+│
+├── tb/
+│   └── apb_slave_tb.v
+│
+├── docs/
+│
+├── images/
+│
+├── waveforms/
+│
+└── README.md
+```
+
+---
+
+# 🛠️ Tools Used
+
+- Verilog HDL
+- EDA Playground
+- Icarus Verilog
+- EPWave
+- GitHub
+
+---
+
+# 🚀 Future Improvements
+
+The current implementation provides a functional APB Slave suitable for learning RTL design and verification concepts. Future enhancements may include:
+
+- APB4 protocol support
+- Wait-state implementation
+- Configurable register bank
+- Burst transfer support (through higher-performance AMBA protocols)
+- Additional peripheral modules such as GPIO, UART, SPI, or Timer
+- Interrupt generation support
+- Functional coverage and assertion-based verification using SystemVerilog
+- UVM-based verification environment
+- FPGA implementation and hardware validation
+
+---
+
+# 👩‍💻 Author
+
+**Pooja Bhavsar**
+
+Electronics and Communication Engineering Student
+
+Aspiring VLSI RTL Design and Functional Verification Engineer
+
+Passionate about Digital Design, Verilog HDL, RTL Design, and Functional Verification.
+
+---
+
+# 🙏 Acknowledgement
+
+This project was developed during my **VLSI Frontend Digital Design Internship** as part of my learning journey in RTL Design and Functional Verification.
+
+I sincerely thank my mentors for their valuable guidance, continuous support, and encouragement throughout the internship. Their mentorship helped me strengthen my understanding of Verilog HDL, digital design concepts, and verification methodologies.
+
 
