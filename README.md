@@ -177,7 +177,7 @@ The APB Finite State Machine controls the protocol operation using three states:
 
 ---
 
-## 📌 Address Decoder (`apb_address_decoder.v`)
+## 📌 Address Decoder (`apb_addr_decoder.v`)
 
 The address decoder monitors the incoming APB address and selects the corresponding register or RAM location.
 
@@ -193,7 +193,7 @@ The address decoder monitors the incoming APB address and selects the correspond
 
 ---
 
-## 📌 Register Bank (`register_bank.v`)
+## 📌 Register Bank (`apb_register_bank.v`)
 
 The register bank stores configuration, status, and user data required by the APB Slave.
 
@@ -441,7 +441,7 @@ This automated verification methodology helps ensure that the APB Slave operates
 
 The APB Slave was simulated using **EDA Playground** with the **Icarus Verilog** simulator. Functional verification was performed using a self-checking testbench, and simulation waveforms were analyzed using **EPWave**.
 
-Representative simulation waveforms demonstrating different APB transactions are included in the **waveforms/** directory.
+Representative simulation waveforms demonstrating different APB transactions are included in the **waveform/** directory.
 
 ### Simulated Operations
 
@@ -500,12 +500,12 @@ amba-apb-slave-verilog/
 The current implementation provides a functional APB Slave suitable for learning RTL design and verification concepts. Future enhancements may include:
 
 - Wait-state implementation
-- Configurable register bank
-- Burst transfer support (through higher-performance AMBA protocols)
-- Additional peripheral modules such as GPIO, UART, SPI, or Timer
 - Interrupt generation support
+- Configurable register bank
+- Additional peripheral modules such as GPIO, UART, SPI, or Timer
 - Functional coverage and assertion-based verification using SystemVerilog
 - UVM-based verification environment
+- Burst transfer support (through higher-performance AMBA protocols)
 
 ---
 
